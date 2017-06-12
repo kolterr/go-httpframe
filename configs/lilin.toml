@@ -1,0 +1,63 @@
+# @name: lilin service配置文件
+# @date: 2017.06.09
+# @vers: 0.0.1
+
+runmode = "debug"         #运行模式 debug: 调试模式 | release:
+log = "stdout"            #日志输出, stdout: 标准输出 | nsq: nsq消息系统输出, 如果设置为nsq, 则必须配置nsq配置
+
+#网页文件地址
+[webpage]
+#opplatform = "web_content/opplatform"
+#privchannel = "web_content/privchannel"
+#sdk = "web_content/sdk"
+#authadmin = "web_content/auth-admin"
+
+
+#WEB服务器设置
+[webserver]
+addr = "0.0.0.0:8080"                         #监听地址
+enable_ssl = false                            #是否使用https, 如果为true, 则必须配置cert和key的路径
+#upload_dir = "uploads"                       #上传文件夹
+
+#证书设置
+[webserver.certificates]
+cert = "configs/https/ss.lonng.org.crt"       #证书路径
+key = "configs/https/ss.lonng.org.key"        #Key路径
+
+# opplatform 数据库配置
+[database.lilin]
+host = "127.0.0.1"                            #数据库地址
+port = 3306                                   #数据库端口
+username = "root"                             #数据库登录用户名
+password = "88888888"                         #数据库登录密码
+dbname = "lilin"                              #数据库
+args = "charset=utf8"                         #数据库连接参数
+buf_size = 10                                 #缓冲大小
+max_idle_conns = 20                           #最大空闲连接数
+max_open_conns = 15                           #最大连接数
+show_sql = false                              #是否显示SQL语句
+
+#Token设置
+[token]
+expires = 864000                       #token过期时间
+
+# Redis配置
+[redis]
+host = "127.0.0.1"                    #Redis地址
+port = 6379                           #Redis端口
+#select = 0                            #默认值
+
+# JWT密钥配置
+[jwt]
+public_key = "configs/jwt/public_key.pem"     #JWT公钥
+private_key = "configs/jwt/private_key.pem"   #JWT私钥
+
+[service]
+#sdk = "http://127.0.0.1:8080"
+#infiltrator = "http://127.0.0.1:12315"
+#feedback = "http://127.0.0.1:17951"
+
+# 登陆非对称加密
+[login]
+public_key = "configs/login/public_key.pem"     #login公钥
+private_key = "configs/login/private_key.pem"   #login私钥
