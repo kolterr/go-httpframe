@@ -1,31 +1,40 @@
 package login
 
 import (
-	"context"
 	"net/http"
 
 	kitlog "github.com/go-kit/kit/log"
 	kithttp "github.com/go-kit/kit/transport/http"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
+
+	"go-httpframe/internal/util"
+
+	"github.com/go-kit/kit/tracing/opentracing"
+	"github.com/gorilla/mux"
+	stdopentracing "github.com/opentracing/opentracing-go"
+	"github.com/prometheus/client_golang/prometheus"
 )
 
-func MakeHandler(ctx context.Context, s Service, logger kitlog.Logger) http.Handler {
-	opts := []kithttp.ServerOption{
+func MakeHandler(s Service, tracer stdopentracing.Tracer, logger kitlog.Logger) http.Handler {
+	options := []kithttp.ServerOption{
 		kithttp.ServerErrorLogger(logger),
-		kithttp.ServerErrorEncoder(encoding.EncodeError),
+		kithttp.ServerErrorEncoder(util.EncodeError),
 	}
 	getOptionsHandler := kithttp.NewServer(
-		ctx,
-		makeGetOptionsEndpoint(s),
+		makeGetOptionsEndpoint(),
 		decodeGetOptionsRequest,
-		encoding.EncodeResponse,
-		append(options, httptransport.ServerBefore(opentracing.FromHTTPRequest(tracer, "login", logger)))...,
-	...)
+		encodeGetOptionsResponse,
+		append(options, kithttp.ServerBefore(opentracing.FromHTTPRequest(tracer, "login", logger)))...,
+	)
 
-	userLoginHandler := promhttp.InstrumentTrace{} ("user_login", kithttp.NewServer(
-		ctx,
-		makeUserLoginEndpoint(s),
-		decodeUserLoginRequest,
-		encoding.EncodeResponse,
-		opts...))
+	userLoginHandler := prometheus.InstrumentHandler("user_login", kithttp.NewServer(
+		makeLoginEndpoint(),
+		decodeLoginRequest,
+		encodeLoginResponse,
+		options...))
+
+	m := mux.NewRouter()
+	m.Handle("/v1/", getOptionsHandler).Methods("OPTIONS")  //获取可用操作
+	m.Handle("/v1/login", userLoginHandler).Methods("POST") //用户登录
+
+	return m
 }

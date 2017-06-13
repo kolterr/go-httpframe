@@ -6,10 +6,9 @@ import (
 	"go-httpframe/service/login"
 	"net/http"
 
-	"context"
-
 	"github.com/go-kit/kit/log"
 	stdopentracing "github.com/opentracing/opentracing-go"
+	stdprometheus "github.com/prometheus/client_golang/prometheus"
 	"github.com/sony/sonyflake"
 	"github.com/spf13/viper"
 )
@@ -58,18 +57,22 @@ func (s *serverApp) MustService(srv interface{}, srvName string) {
 
 func (s *serverApp) InitServices() http.Handler {
 	var (
-		ctx        = context.Background()
 		mux        = http.NewServeMux()
 		httpLogger = log.With(s.Logger(), "component", "http")
 		webDir     = viper.GetString("webpage_dir")
+		tracer     stdopentracing.Tracer
 	)
 
 	mux.HandleFunc("/test", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("success"))
 	})
 
-	var tracer stdopentracing.Tracer
-	mux.Handle("/user", login.MakeLoginHandler(s.Logger(), tracer))
+	mux.Handle("/user", login.MakeLoginHandler(httpLogger, tracer))
+
+	//prometheus
+	mux.Handle("/metrics", stdprometheus.Handler())
+	//static page
+	mux.Handle("/web/", http.StripPrefix("/web/", http.FileServer(http.Dir(webDir))))
 
 	return mux
 }
