@@ -198,51 +198,6 @@
 			"notests": true
 		},
 		{
-			"importpath": "github.com/prometheus/client_golang/prometheus",
-			"repository": "https://github.com/prometheus/client_golang",
-			"vcs": "git",
-			"revision": "e7e903064f5e9eb5da98208bae10b475d4db0f8c",
-			"branch": "master",
-			"path": "/prometheus",
-			"notests": true
-		},
-		{
-			"importpath": "github.com/prometheus/client_model/go",
-			"repository": "https://github.com/prometheus/client_model",
-			"vcs": "git",
-			"revision": "6f3806018612930941127f2a7c6c453ba2c527d2",
-			"branch": "master",
-			"path": "/go",
-			"notests": true
-		},
-		{
-			"importpath": "github.com/prometheus/common/expfmt",
-			"repository": "https://github.com/prometheus/common",
-			"vcs": "git",
-			"revision": "13ba4ddd0caa9c28ca7b7bffe1dfa9ed8d5ef207",
-			"branch": "master",
-			"path": "/expfmt",
-			"notests": true
-		},
-		{
-			"importpath": "github.com/prometheus/common/internal/bitbucket.org/ww/goautoneg",
-			"repository": "https://github.com/prometheus/common",
-			"vcs": "git",
-			"revision": "13ba4ddd0caa9c28ca7b7bffe1dfa9ed8d5ef207",
-			"branch": "master",
-			"path": "internal/bitbucket.org/ww/goautoneg",
-			"notests": true
-		},
-		{
-			"importpath": "github.com/prometheus/common/model",
-			"repository": "https://github.com/prometheus/common",
-			"vcs": "git",
-			"revision": "13ba4ddd0caa9c28ca7b7bffe1dfa9ed8d5ef207",
-			"branch": "master",
-			"path": "model",
-			"notests": true
-		},
-		{
 			"importpath": "github.com/sony/sonyflake",
 			"repository": "https://github.com/sony/sonyflake",
 			"vcs": "git",
