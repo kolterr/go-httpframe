@@ -4,7 +4,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-const version = "0.0.1"
+const version = "0.0.0.1"
 
 //The version command prints this service.
 var versionCmd = &cobra.Command{
