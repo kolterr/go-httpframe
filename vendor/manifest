@@ -216,11 +216,12 @@
 			"notests": true
 		},
 		{
-			"importpath": "github.com/prometheus/client_golang",
+			"importpath": "github.com/prometheus/client_golang/prometheus",
 			"repository": "https://github.com/prometheus/client_golang",
 			"vcs": "git",
 			"revision": "de4d4ffe63b9eff7f27484fdef6e421597e6abb4",
 			"branch": "master",
+			"path": "/prometheus",
 			"notests": true
 		},
 		{
