@@ -1,6 +1,15 @@
 package protocol
 
-type ErrorWrapper struct {
-	Code    int    `json:"code"`
-	Details string `json:"details"`
-}
+type (
+	UserLoginRequest struct {
+	}
+
+	UserLoginResponse struct {
+	}
+
+	ThirdUserLoginRequest struct {
+	}
+
+	UserInfo struct {
+	}
+)

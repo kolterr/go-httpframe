@@ -31,10 +31,11 @@ var (
 	ErrWrongPhoneNumber          = errors.New("wrong phone number")
 	ErrDBOperation               = errors.New("db operation error")
 	ErrSignFailed                = errors.New("sign failed")
+	ErrNotImplemented            = errors.New("not implemented")
 )
 
 const (
-	unknown = 5000 + iota
+	Unknown = 5000 + iota
 	serverInternal
 	illegalParameter
 	wrongType
@@ -62,10 +63,11 @@ const (
 	wrongPhoneNumber
 	dbOperation
 	signFailed
+	notImplemented
 )
 
 var code = map[error]int{
-	ErrUnknown:                   unknown,
+	ErrUnknown:                   Unknown,
 	ErrServerInternal:            serverInternal,
 	ErrIllegalParameter:          illegalParameter,
 	ErrWrongType:                 wrongType,
@@ -93,12 +95,13 @@ var code = map[error]int{
 	ErrWrongPhoneNumber:          wrongPhoneNumber,
 	ErrDBOperation:               dbOperation,
 	ErrSignFailed:                signFailed,
+	ErrNotImplemented:            notImplemented,
 }
 
 func Code(err error) int {
 	c, ok := code[err]
 	if !ok {
-		return unknown
+		return Unknown
 	}
 	return c
 }

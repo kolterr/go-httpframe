@@ -11,7 +11,7 @@ var RootCmd = &cobra.Command{
 	Short: "service",
 	Long:  "author is lilin",
 	Run: func(cmd *cobra.Command, args []string) {
-		app.Run(NewServerApp("lilin", cmd.Flags().Lookup("conf")))
+		app.Run(NewServerApp("lilin", cmd.Flags().Lookup("conf").Value.String()))
 	},
 }
 

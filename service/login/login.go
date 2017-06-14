@@ -1,11 +1,11 @@
 package login
 
 import (
-	"context"
+	"go-httpframe/internal/encoding"
 	"go-httpframe/protocol"
 	"net/http"
 
-	"encoding/json"
+	"go-httpframe/internal/errutil"
 
 	kitlog "github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/tracing/opentracing"
@@ -37,12 +37,14 @@ func NewService() Service {
 
 func (s *service) UserLogin(r *protocol.UserLoginRequest) (*protocol.UserLoginResponse, error) {
 
+	return nil, errutil.ErrNotImplemented
 }
 
 func (s *service) ThirdUserLogin(r *protocol.ThirdUserLoginRequest) (*protocol.UserLoginResponse, error) {
-
+	return nil, errutil.ErrNotImplemented
 }
-func (s *service) CheckUser(token string) (*protocol.SDKUserInfo, error) {
+func (s *service) CheckUser(token string) (*protocol.UserInfo, error) {
+	return &protocol.UserInfo{}, nil
 	//um, err := tokenutil.UserMeta(token)
 	//if err != nil {
 	//	return nil, err
@@ -78,6 +80,7 @@ func (s *service) CheckUser(token string) (*protocol.SDKUserInfo, error) {
 }
 
 func (s *service) UserLogout(token string) error {
+	return nil
 	//if !cache.Exists(token) {
 	//	return errutil.ErrTokenNotFound
 	//}
@@ -103,7 +106,7 @@ func (*service) GetOptions() string {
 
 func MakeLoginHandler(logger kitlog.Logger, tracer stdopentracing.Tracer) http.Handler {
 	options := []httptransport.ServerOption{
-		httptransport.ServerErrorEncoder(errorEncoder),
+		httptransport.ServerErrorEncoder(encoding.EncodeError),
 		httptransport.ServerErrorLogger(logger),
 	}
 
@@ -116,14 +119,4 @@ func MakeLoginHandler(logger kitlog.Logger, tracer stdopentracing.Tracer) http.H
 	))
 
 	return m
-}
-
-func errorEncoder(_ context.Context, err error, w http.ResponseWriter) {
-	code := http.StatusInternalServerError
-	msg := err.Error()
-
-	code = http.StatusBadRequest
-
-	w.WriteHeader(code)
-	json.NewEncoder(w).Encode(protocol.ErrorWrapper{Code: 1, Details: msg})
 }

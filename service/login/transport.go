@@ -1,12 +1,11 @@
 package login
 
 import (
+	"go-httpframe/internal/encoding"
 	"net/http"
 
 	kitlog "github.com/go-kit/kit/log"
 	kithttp "github.com/go-kit/kit/transport/http"
-
-	"go-httpframe/internal/util"
 
 	"github.com/go-kit/kit/tracing/opentracing"
 	"github.com/gorilla/mux"
@@ -17,7 +16,7 @@ import (
 func MakeHandler(s Service, tracer stdopentracing.Tracer, logger kitlog.Logger) http.Handler {
 	options := []kithttp.ServerOption{
 		kithttp.ServerErrorLogger(logger),
-		kithttp.ServerErrorEncoder(util.EncodeError),
+		kithttp.ServerErrorEncoder(encoding.EncodeError),
 	}
 	getOptionsHandler := kithttp.NewServer(
 		makeGetOptionsEndpoint(),
